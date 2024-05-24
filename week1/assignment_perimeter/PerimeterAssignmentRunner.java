@@ -58,7 +58,7 @@ public class PerimeterAssignmentRunner {
         double maxX = 0;
         for (Point currPt : s.getPoints()) {
             double firstX = currPt.getX();
-            System.out.println(firstX);
+            //System.out.println(firstX);
             if (firstX > maxX) {
                 maxX = firstX;
             }
@@ -81,14 +81,14 @@ public class PerimeterAssignmentRunner {
         FileResource fr = new FileResource();
         Shape s = new Shape(fr);
         double length = getPerimeter(s);
-        int numPoints = getNumPoints(s); 
-        double avgLength = getAverageLength(s);
-        double maxLength = getLargestSide(s);
-        double maxXvalue = getLargestX(s);    
         System.out.println("perimeter of the shape = " + length);
-        System.out.println("number of points of the shape = " + numPoints);
-        System.out.println("average length of a side of the shape = " + avgLength);
+        int numPoints = getNumPoints(s); 
+        System.out.println("number of points of the shape = " + numPoints);        
+        double avgLength = getAverageLength(s);
+        System.out.println("average length of a side of the shape = " + avgLength);        
+        double maxLength = getLargestSide(s);
         System.out.println("the longest side of the shape = " + maxLength);
+        double maxXvalue = getLargestX(s);        
         System.out.println("the largest x-value for the points of the shape = " + maxXvalue);
         
     }
