@@ -122,6 +122,8 @@ public class PerimeterAssignmentRunner {
 
     public void testFileWithLargestPerimeter() {
         // Put code here
+        String fileLargePerim = getFileWithLargestPerimeter();
+        System.out.println(fileLargePerim);
     }
 
     // This method creates a triangle that you can use to test your other methods
@@ -148,5 +150,7 @@ public class PerimeterAssignmentRunner {
     public static void main (String[] args) {
         PerimeterAssignmentRunner pr = new PerimeterAssignmentRunner();
         pr.testPerimeter();
+        pr.testPerimeterMultipleFiles();
+        pr.testFileWithLargestPerimeter();
     }
 }
