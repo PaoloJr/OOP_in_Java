@@ -1,4 +1,4 @@
-import edu.duke.URLResource;
+import edu.duke.*;
 /**
  *
  * @author (PJ)
@@ -6,18 +6,21 @@ import edu.duke.URLResource;
  */
 public class Part4
 {
-    public void testing()
+    public void getYoutubeURL()
     {
-        URLResource yt = new URLResource("https://www.dukelearntoprogram.com/course2/data/manylinks.html");
-        String ytString = yt.asString();
-        //System.out.println(ytString);
-        //System.out.println(ytString.lines());
-        System.out.println(yt.words());
-
-    }
-
-    public String getYoutubeURL(String url)
-    {
-        return "";
+        URLResource url = new URLResource("https://www.dukelearntoprogram.com/course2/data/manylinks.html");
+            for (String word : url.words()) {
+                String term = "youtube.com";
+                int ytIndex = word.toLowerCase().indexOf(term);
+                
+                if (ytIndex > -1) {
+                   //int firstQuote = word.indexOf("\"");
+                   int firstQuote2 = word.lastIndexOf("\"", ytIndex);
+                   int lastQuote = word.indexOf("\"", firstQuote2 + 1);
+                   String getLink = word.substring(firstQuote2 + 1, lastQuote);
+                   System.out.println(getLink);
+                   //System.out.println(word);
+                }
+        }
     }
 }
