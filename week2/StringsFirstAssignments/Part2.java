@@ -24,7 +24,7 @@ public class Part2
         System.out.println("");
     } */
     
-    // dna with not TAA
+    // dna with no TAA
     String dna2 = "ACGATGCGCTATCGA";
     System.out.println("DNA is " + dna2);
     String gene2 = findSimpleGene(dna2, startCodon, stopCodon);

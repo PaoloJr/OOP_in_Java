@@ -44,8 +44,8 @@ public class Part1
     System.out.println(gene4);
     
     // dna with ATG & TAA and substring is not a multiple of 3
-    String dna5 = "ATGTTACGCAAAGCTATAA";
-    System.out.println("DNA is " + dna5);
+    String dna5 = "AAATGCCCTAACTAGATTAAGAAACC";
+    System.out.println("Question #1, DNA is " + dna5);
     String gene5 = findSimpleGene(dna5);
     System.out.println(gene5);    
     }
