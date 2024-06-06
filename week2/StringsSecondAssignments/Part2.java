@@ -12,22 +12,21 @@ public class Part2
         String fourthFind = "ze";
         String fifth = "aabaacaa";
         String fifthFind = "a";
-        
-        int testFirst = howMany(firstFind, first);
-        int testSecond = howMany(secondFind, second);
-        int testThird = howMany(thirdFind, third);
-        int testFourth = howMany(fourthFind, fourth);        
-        int testFifth = howMany(fifthFind, fifth);
-        
+                
         System.out.println("First is " + first);
+        int testFirst = howMany(firstFind, first);
         System.out.println("Found " + firstFind + " " + testFirst + " times");
         System.out.println("Second is " + second);
+        int testSecond = howMany(secondFind, second);
         System.out.println("Found " + secondFind + " " + testSecond + " times");
         System.out.println("Third is " + third);
+        int testThird = howMany(thirdFind, third);
         System.out.println("Found " + thirdFind + " " + testThird + " times");
         System.out.println("Fourth is " + fourth);
+        int testFourth = howMany(fourthFind, fourth);        
         System.out.println("Found " + fourthFind + " " + testFourth + " times");
         System.out.println("Fifth is " + fifth);
+        int testFifth = howMany(fifthFind, fifth);
         System.out.println("Found " + fifthFind + " " + testFifth + " times");
         
     }
