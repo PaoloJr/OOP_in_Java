@@ -191,7 +191,7 @@ public class Part1
     }
     
     public void testCountCTG() {
-        String dna1 = "ATGATCTGAAGAAGATAATAGAGGGCTGATGCTGCTG";
+        /*String dna1 = "ATGATCTGAAGAAGATAATAGAGGGCTGATGCTGCTG";
         String dna2 = "CTGCTGCTG";
         String dna3 = "ATGCCATAG";
         
@@ -205,6 +205,12 @@ public class Part1
         System.out.println("CTG count is " + count2);
         System.out.println("DNA3 is " + dna3);
         System.out.println("CTG count is " + count3);
+        */
+       
+        FileResource fr = new FileResource("GRch38dnapart.fa.txt");
+        String dna = fr.asString().toUpperCase();
+        int countCTG = countCTG(dna);
+        System.out.println("Count of CTG in file = " + countCTG);           
     }
     
     public void processGenes(StorageResource sr) {
@@ -215,7 +221,7 @@ public class Part1
         double checkRatio = 0.35;
         
         for(String gene : sr.data()) {
-            if (gene.length() > checkLength) {
+            if (gene.length() >= checkLength) {
                 System.out.println("Gene length > " + checkLength + " --> " + gene);
                 System.out.println("Length --> " + gene.length());
                 longerThan += 1;
@@ -255,7 +261,8 @@ public class Part1
         // String testDNAupper = testDNA.toUpperCase();
         
         System.out.println("Processing DNA strands...");
-        FileResource fr = new FileResource("brca1line.fa");
+        // FileResource fr = new FileResource("brca1line.fa");
+        FileResource fr = new FileResource("GRch38dnapart.fa.txt");
         String dna = fr.asString().toUpperCase();
         // System.out.println(dna);
        
