@@ -44,10 +44,10 @@ public class WhichCountriesExport {
         
         parser = fr.getCSVParser();
         System.out.println("Exporters of two products: ");
-        listExportersTwoProducts(parser, "fish", "nuts");
+        listExportersTwoProducts(parser, "cotton", "flowers");
         
         parser = fr.getCSVParser();
-        int test4 = numberOfExporters(parser, "sugar");
+        int test4 = numberOfExporters(parser, "cocoa");
         System.out.println("Count --> " + test4);
         
         parser = fr.getCSVParser();
