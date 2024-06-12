@@ -53,10 +53,10 @@ public class BabyBirths {
         totalBirths(fr);
     }
     
-    public int getRank(int year, String name, String gender, FileResource fr) {
+    public int getRank(int year, String name, String gender, File f) {
         // String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob" + year + "short.csv";
         // FileResource fr = new FileResource(file);
-        // FileResource fr = new FileResource();
+        FileResource fr = new FileResource(f);
         CSVParser parser = fr.getCSVParser(false);
         boolean nameFoundWithinGender = false;
         int rank = 0;
@@ -77,14 +77,14 @@ public class BabyBirths {
         }
     }
     
-    public void testGetRank () {
-        FileResource fr = new FileResource();
-        int fileYear = 2012;
-        String testName = "Mason";
-        String testGender = "M";
-        int rank = getRank(fileYear, testName, testGender, fr);
-        System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
-    }
+    // public void testGetRank () {
+        // FileResource fr = new FileResource();
+        // int fileYear = 2012;
+        // String testName = "Mason";
+        // String testGender = "M";
+        // int rank = getRank(fileYear, testName, testGender);
+        // System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
+    // }
     
     public String getName(int year, int rank, String gender) {
         FileResource fr = new FileResource();
@@ -116,8 +116,7 @@ public class BabyBirths {
         DirectoryResource dr = new DirectoryResource();
         
         for (File f : dr.selectedFiles()) {
-            String FileName = f.getCanonicalPath();
-            int getRankYear = getRank(year, name, gender, );
+            int getRankYear = getRank(year, name, gender, f);
             int getRankNewYear = getRank(newYear, name, gender, f);
             System.out.println("getRankYear is " + getRankYear);
             System.out.println("getRankNewYear is " + getRankNewYear);
