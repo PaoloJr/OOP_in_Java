@@ -77,14 +77,14 @@ public class BabyBirths {
         }
     }
     
-    // public void testGetRank () {
-        // FileResource fr = new FileResource();
-        // int fileYear = 2012;
-        // String testName = "Mason";
-        // String testGender = "M";
-        // int rank = getRank(fileYear, testName, testGender);
-        // System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
-    // }
+    public void testGetRank () {
+        String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob2012short.csv";
+        int fileYear = 2012;
+        String testName = "Mason";
+        String testGender = "M";
+        int rank = getRank(fileYear, testName, testGender, f);
+        System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
+    }
     
     public String getName(int year, int rank, String gender) {
         FileResource fr = new FileResource();
