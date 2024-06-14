@@ -53,10 +53,10 @@ public class BabyBirths {
         totalBirths(fr);
     }
     
-    public int getRank(int year, String name, String gender, File f) {
+    public int getRank(int year, String name, String gender, String fileName) {
         // String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob" + year + "short.csv";
         // FileResource fr = new FileResource(file);
-        FileResource fr = new FileResource(f);
+        FileResource fr = new FileResource(fileName);
         CSVParser parser = fr.getCSVParser(false);
         boolean nameFoundWithinGender = false;
         int rank = 0;
@@ -80,14 +80,14 @@ public class BabyBirths {
     public void testGetRank () {
         String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob2012short.csv";
         int fileYear = 2012;
-        String testName = "Mason";
-        String testGender = "M";
-        int rank = getRank(fileYear, testName, testGender, f);
+        String testName = "Sophia";
+        String testGender = "F";
+        int rank = getRank(fileYear, testName, testGender, file);
         System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
     }
     
-    public String getName(int year, int rank, String gender) {
-        FileResource fr = new FileResource();
+    public String getName(int year, int rank, String gender, String fileName) {
+        FileResource fr = new FileResource(fileName);
         CSVParser parser = fr.getCSVParser(false);
         String nameFound = "";
         int count = 0;
@@ -108,20 +108,28 @@ public class BabyBirths {
         int testYear = 2012;
         int testRank = 5;
         String testGender = "F";
-        String name = getName(testYear, testRank, testGender);
-        System.out.println("Gender: " + testGender + ", with rank = " + testRank + ", has name " + name);
+        // String name = getName(testYear, testRank, testGender);
+        // System.out.println("Gender: " + testGender + ", with rank = " + testRank + ", has name " + name);
     }
     
     public void whatIsNameInYear(String name, int year, int newYear, String gender) {
         DirectoryResource dr = new DirectoryResource();
         
-        for (File f : dr.selectedFiles()) {
-            int getRankYear = getRank(year, name, gender, f);
-            int getRankNewYear = getRank(newYear, name, gender, f);
-            System.out.println("getRankYear is " + getRankYear);
-            System.out.println("getRankNewYear is " + getRankNewYear);
+       for (File f : dr.selectedFiles()) {
+            // FileResource fr = new FileResource(f);
+            // CSVParser parser = fr.getCSVParser(false);
+            String fileName = f.getAbsolutePath();
+            int findYear = f.getAbsolutePath().indexOf("yob");
+            int yearInFileName = Integer.parseInt(fileName.substring(findYear + 3, findYear + 7));
+            int rank = getRank(yearInFileName, name, gender, fileName);
+            String nameFound = getName(yearInFileName, rank, gender, fileName);
+            // System.out.println(fileName);
+            // System.out.println(findYear);
+            // System.out.println(yearInFileName);
+            System.out.println("name: " + nameFound + " year: " + yearInFileName + " rank: "+ rank);
         }
-        
+        // System.out.println("getF irstYearRank is " + getFirstYearRank);
+        // System.out.println("getSecondYearRank is " + getSecondYearRank);
     }
     
     public void testWhatIsNameInYear () {
