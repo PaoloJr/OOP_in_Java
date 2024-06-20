@@ -126,7 +126,7 @@ public class BabyBirths {
             // System.out.println(fileName);
             // System.out.println(findYear);
             // System.out.println(yearInFileName);
-            System.out.println("name: " + nameFound + " year: " + yearInFileName + " rank: "+ rank);
+            System.out.println(nameFound + " born in " + yearInFileName + " rank: "+ rank);
         }
         // System.out.println("getF irstYearRank is " + getFirstYearRank);
         // System.out.println("getSecondYearRank is " + getSecondYearRank);
