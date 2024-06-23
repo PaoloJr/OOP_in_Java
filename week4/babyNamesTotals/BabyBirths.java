@@ -53,10 +53,9 @@ public class BabyBirths {
         totalBirths(fr);
     }
     
-    public int getRank(int year, String name, String gender, String fileName) {
-        // String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob" + year + "short.csv";
-        // FileResource fr = new FileResource(file);
-        FileResource fr = new FileResource(fileName);
+    public int getRank(int year, String name, String gender) {
+        String file = "us_babynames_small/yob" + year + "short.csv";
+        FileResource fr = new FileResource(file);
         CSVParser parser = fr.getCSVParser(false);
         boolean nameFoundWithinGender = false;
         int rank = 0;
@@ -78,16 +77,17 @@ public class BabyBirths {
     }
     
     public void testGetRank () {
-        String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob2012short.csv";
+        // String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob2012short.csv";
         int fileYear = 2012;
         String testName = "Sophia";
         String testGender = "F";
-        int rank = getRank(fileYear, testName, testGender, file);
+        int rank = getRank(fileYear, testName, testGender);
         System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
     }
     
-    public String getName(int year, int rank, String gender, FileResource fr) {
-        // FileResource fr = new FileResource(fileName);
+    public String getName(int year, int rank, String gender) {
+        String file = "us_babynames_small/yob" + year + "short.csv";
+        FileResource fr = new FileResource(file);
         CSVParser parser = fr.getCSVParser(false);
         String nameFound = "NO NAME";
         int count = 0;
@@ -104,11 +104,10 @@ public class BabyBirths {
     }
     
     public void testGetName () {
-        FileResource fr = new FileResource();
         int testYear = 2012;
-        int testRank = 2;
+        int testRank = 10;
         String testGender = "F";
-        String name = getName(testYear, testRank, testGender, fr);
+        String name = getName(testYear, testRank, testGender);
         System.out.println("Gender: " + testGender + ", with rank = " + testRank + ", has name " + name);
     }
     
@@ -118,29 +117,28 @@ public class BabyBirths {
         String newName = "";
         String output = "";
         
+       // getRank in year loop
        for (File f : dr.selectedFiles()) {            
             String fileName = f.getAbsolutePath();
             int findYear = f.getAbsolutePath().indexOf("yob");
             int yearInFileName = Integer.parseInt(fileName.substring(findYear + 3, findYear + 7));
             
-            // getRank in year
             if (yearInFileName == year) {
-            FileResource fr = new FileResource(f);
-            rank = getRank(yearInFileName, name, gender, fileName);
+            rank = getRank(yearInFileName, name, gender);
             break;
             }
        }
 
+       // getName in newYear loop
        if (rank != -1) {
         for (File f : dr.selectedFiles()) {
            String fileName = f.getAbsolutePath();
            int findYear = fileName.indexOf("yob");
            int yearInFileName = Integer.parseInt(fileName.substring(findYear + 3, findYear + 7));
            
-           // getName in newYear
            if (yearInFileName == newYear) {
-            FileResource fr = new FileResource(f);
-            newName = getName(yearInFileName, rank, gender, fr);
+            // FileResource fr = new FileResource(f);
+            newName = getName(yearInFileName, rank, gender);
             break;
             }           
         }
@@ -172,7 +170,7 @@ public class BabyBirths {
            String fileName = f.getAbsolutePath();
            int findYear = fileName.indexOf("yob");
            int yearInFileName = Integer.parseInt(fileName.substring(findYear + 3, findYear + 7));
-           int rank = getRank(yearInFileName, name, gender, fileName);
+           int rank = getRank(yearInFileName, name, gender);
            
            // System.out.println(rank);
            if (rank != -1 && (highestRank == 0 || rank < highestRank)) {
@@ -200,7 +198,7 @@ public class BabyBirths {
            String fileName = f.getAbsolutePath();
            int findYear = fileName.indexOf("yob");
            int yearInFileName = Integer.parseInt(fileName.substring(findYear + 3, findYear + 7));
-           int rank = getRank(yearInFileName, name, gender, fileName);
+           int rank = getRank(yearInFileName, name, gender);
            // System.out.println("Rank is --> " + rank);
            if (rank != -1) {
                 totalRank += rank;
@@ -221,4 +219,24 @@ public class BabyBirths {
         double avgRank = getAverageRank(testName, testGender);
         System.out.println("Average rank = " + avgRank);
     }
-}
+    
+    public int getTotalBirthsRankedHigher(int year, String name, String gender) {
+        FileResource fr = new FileResource();
+        CSVParser parser = fr.getCSVParser(false);
+        int births = 0;
+        
+        for (CSVRecord row : parser) {
+            
+        }
+        
+        return births;
+    }
+    
+    public void testGetTotalBirthsRankedHigher() {
+        int testYear = 2012;
+        String testName = "Ethan";
+        String testGender = "M";
+        int value = getTotalBirthsRankedHigher(testYear, testName, testGender);
+        System.out.println(value);        
+    }
+}   
