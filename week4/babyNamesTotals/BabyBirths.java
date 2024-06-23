@@ -54,7 +54,9 @@ public class BabyBirths {
     }
     
     public int getRank(int year, String name, String gender) {
-        String file = "us_babynames_small/yob" + year + "short.csv";
+        // String file = "us_babynames_small/yob" + year + "short.csv";
+        String file = "data/yob" + year + ".csv";
+
         FileResource fr = new FileResource(file);
         CSVParser parser = fr.getCSVParser(false);
         boolean nameFoundWithinGender = false;
@@ -79,14 +81,16 @@ public class BabyBirths {
     public void testGetRank () {
         // String file = "C:\\Users\\pjang\\Documents\\GitHub\\OOP-in-Java\\week4\\us_babynames_small\\yob2012short.csv";
         int fileYear = 2012;
-        String testName = "Sophia";
-        String testGender = "F";
+        String testName = "Frank";
+        String testGender = "M";
         int rank = getRank(fileYear, testName, testGender);
         System.out.println("Rank for " + testName + ", Gender: " + testGender + " is " + rank);
     }
     
     public String getName(int year, int rank, String gender) {
-        String file = "us_babynames_small/yob" + year + "short.csv";
+        // String file = "us_babynames_small/yob" + year + "short.csv";
+        String file = "data/yob" + year + ".csv";
+
         FileResource fr = new FileResource(file);
         CSVParser parser = fr.getCSVParser(false);
         String nameFound = "NO NAME";
@@ -105,8 +109,8 @@ public class BabyBirths {
     
     public void testGetName () {
         int testYear = 2012;
-        int testRank = 10;
-        String testGender = "F";
+        int testRank = 450;
+        String testGender = "M";
         String name = getName(testYear, testRank, testGender);
         System.out.println("Gender: " + testGender + ", with rank = " + testRank + ", has name " + name);
     }
@@ -154,10 +158,10 @@ public class BabyBirths {
     }
     
     public void testWhatIsNameInYear () {
-        String testName = "Isabella";
-        int testYear = 2012;
+        String testName = "Owen";
+        int testYear = 1974;
         int testNewYear = 2014;
-        String testGender = "F";
+        String testGender = "M";
         whatIsNameInYear(testName, testYear, testNewYear, testGender);        
     }
     
@@ -183,7 +187,7 @@ public class BabyBirths {
     }
     
     public void testYearOfHighestRank() {
-        String testName = "Mason";
+        String testName = "Mich";
         String testGender = "M";
         int year = yearOfHighestRank(testName, testGender);
         System.out.println("Year of highest rank = " + year);
@@ -214,27 +218,39 @@ public class BabyBirths {
     }
     
     public void testGetAverageRank() {
-        String testName = "Jacob";
+        String testName = "Robert";
         String testGender = "M";
         double avgRank = getAverageRank(testName, testGender);
         System.out.println("Average rank = " + avgRank);
     }
     
     public int getTotalBirthsRankedHigher(int year, String name, String gender) {
+        // String file = "us_babynames_small/yob" + year + "short.csv";
+        // String file = "data/yob" + year + ".csv";
+
         FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser(false);
         int births = 0;
+        int compRank = getRank(year, name, gender);
+        // System.out.println(compRank);
         
         for (CSVRecord row : parser) {
-            
+            int currentRank = getRank(year, row.get(0), row.get(1));
+            if (row.get(1).equals(gender)) {
+                if (currentRank < compRank) {
+                    int birthsValue = Integer.parseInt(row.get(2));
+                    // System.out.println(birthsValue);
+                    births += birthsValue;
+                }
+            }
         }
         
         return births;
     }
     
     public void testGetTotalBirthsRankedHigher() {
-        int testYear = 2012;
-        String testName = "Ethan";
+        int testYear = 1990;
+        String testName = "Drew";
         String testGender = "M";
         int value = getTotalBirthsRankedHigher(testYear, testName, testGender);
         System.out.println(value);        
