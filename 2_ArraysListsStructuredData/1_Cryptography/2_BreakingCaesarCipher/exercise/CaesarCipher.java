@@ -74,12 +74,10 @@ public class CaesarCipher{
     public void testEncryptTwoKeys() {
         String testString = "First Legion";
         String testString2 = "At noon be in the conference room with your hat on for a surprise party. YELL LOUD!";
-        String testString3 = "Just a test string with lots of eeeeeeeeeeeeeeeees";
-        int key1 = 23;
-        int key2 = 2;
+        int key1 = 8;
+        int key2 = 21;
         // String result = encryptTwoKeys(testString, key1, key2);
-        // String result = encryptTwoKeys(testString2, key1, key2);
-        String result = encryptTwoKeys(testString3, key1, key2);
+        String result = encryptTwoKeys(testString2, key1, key2);
         System.out.println(result);
     }
 }
