@@ -21,29 +21,30 @@ public class WordLengths{
             if (currentWordLength > 0) {
                 counts[currentWordLength]++;
             }
-            System.out.println(counts[currentWordLength] + " word(s)" + " of length " + currentWordLength + ": " + word);
+            // System.out.println(counts[currentWordLength] + " word(s)" + " of length " + currentWordLength + ": " + word);
+        }
+        for(int i = 0; i < counts.length; i++){
+            System.out.println("words(s) of length " + i + "  --> " + counts[i]);
         }
     }
     
     public void testCountWordLengths() {
         FileResource fr = new FileResource();
-        int[] counts = new int[10000];
+        int[] counts = new int[31];
         countWordLengths(fr, counts);
-        int maxIndex = indexOfMax(counts);
-        System.out.println("maxIndex: " + maxIndex);
+        int idxOfMax = indexOfMax(counts);
+        System.out.println("idxOfMax: " + idxOfMax);
     }
     
-    public int indexOfMax(int[] values) {
-        int indexOfMax = 0;
-        for (int k = 0; k < values.length; k++) {
-            int current = values[k];
-            if (current > values[indexOfMax]) {
-                indexOfMax = current;
-            }
+    public int indexOfMax(int[] values) {   
+      int indexOfMax = 0;
+      int maxValue = values[0];
+      for (int k = 1; k < values.length; k++) {
+        if (values[k] > maxValue) {
+          maxValue = values[k];
+          indexOfMax = k;
         }
-        // for (int i = 0; i < values.length; i++) {
-            // System.out.println(values[i]);
-        // }
-        return indexOfMax;
+      }
+      return indexOfMax;
     }
 }

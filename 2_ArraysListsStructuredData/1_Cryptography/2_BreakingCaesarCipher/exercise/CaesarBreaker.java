@@ -19,13 +19,13 @@ public class CaesarBreaker{
     }
     
     public int maxIndex(int[] values) {
-        int maxIndexValue = 0;
+        int maxIndex = 0;
         for (int k = 0; k < values.length; k++) {
-            if (values[k] > values[maxIndexValue]) {
-                maxIndexValue = k;
+            if (values[k] > values[maxIndex]) {
+                maxIndex = k;
             }
         }
-        return maxIndexValue;
+        return maxIndex;
     }
         
     public String decrypt(String encrypted) {
@@ -82,6 +82,7 @@ public class CaesarBreaker{
     public int getKey(String s) {
         int[] counts = countLetters(s);
         int maxIdx = maxIndex(counts);
+        // System.out.println("String s: " + s + " --> maxIdx value: " + maxIdx);
         int eKey = maxIdx - 4;
         if (maxIdx < 4) {
             eKey = 26 - (4 - maxIdx);
@@ -96,7 +97,6 @@ public class CaesarBreaker{
         String secondHalf = halfOfString(contents, 1);
         int firstKey = getKey(firstHalf);
         int secondKey = getKey(secondHalf);
-        // int key = getKey(contents);
         System.out.println(firstHalf);
         System.out.println(secondHalf);
         System.out.println("first key: " + firstKey + " Second key: " + secondKey);
@@ -108,23 +108,20 @@ public class CaesarBreaker{
         String oddHalf = halfOfString(encrypted, 1);
         int firstKey = getKey(evenHalf);
         int secondKey = getKey(oddHalf);
-        System.out.println(encrypted);
-        // System.out.println(evenHalf + oddHalf);
+        // System.out.println(encrypted);
+        // System.out.println("evenHalf: " + evenHalf);
+        // System.out.println("oddHalf: " + oddHalf);
         System.out.println("First key: " + firstKey + " , " + "Second key: " + secondKey);
         // System.out.println("First dkey: " + (26 - firstKey) + " Second dkey: " + (26 - secondKey));
-        String decrypted = cc.encryptTwoKeys(encrypted, 26 - firstKey, 26 - secondKey);
-        // String decrypted = cc.encryptTwoKeys(encrypted, 26 - 2, 26 - 20);
-        // System.out.println(decrypted);
+        // String decrypted = cc.encryptTwoKeys(encrypted, 26 - firstKey, 26 - secondKey);
+        String decrypted = cc.encryptTwoKeys(encrypted, 26 - 2, 26 - 20);
         return decrypted;
     }
     
     public void testDecryptTwoKeys() {
         FileResource fr = new FileResource();
         String contents = fr.asString();
-        String practiceString = "Top ncmy qkff vi vguv vbg ycpx";
-        // String decryptedTwo = decryptTwoKeys(practiceString);
         String decryptedTwo = decryptTwoKeys(contents);
-        // System.out.println(contents);
         System.out.println(decryptedTwo);
     }
 }
