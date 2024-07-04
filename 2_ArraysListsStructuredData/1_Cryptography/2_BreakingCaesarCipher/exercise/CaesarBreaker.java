@@ -113,8 +113,8 @@ public class CaesarBreaker{
         // System.out.println("oddHalf: " + oddHalf);
         System.out.println("First key: " + firstKey + " , " + "Second key: " + secondKey);
         // System.out.println("First dkey: " + (26 - firstKey) + " Second dkey: " + (26 - secondKey));
-        // String decrypted = cc.encryptTwoKeys(encrypted, 26 - firstKey, 26 - secondKey);
-        String decrypted = cc.encryptTwoKeys(encrypted, 26 - 2, 26 - 20);
+        String decrypted = cc.encryptTwoKeys(encrypted, 26 - firstKey, 26 - secondKey);
+        // String decrypted = cc.encryptTwoKeys(encrypted, 26 - 2, 26 - 20);
         return decrypted;
     }
     

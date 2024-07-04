@@ -29,6 +29,7 @@ public class CaesarCipher{
                 sb.setCharAt(i, newLowerChar);
             }
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
     
