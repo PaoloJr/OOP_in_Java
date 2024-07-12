@@ -6,8 +6,8 @@ public class CharactersInPlay{
     private ArrayList<Integer> counts;
     
     public CharactersInPlay() {
-        characters = new ArrayList();
-        counts = new ArrayList();
+        characters = new ArrayList<String>();
+        counts = new ArrayList<Integer>();
     }
     
     public void update(String person) {
