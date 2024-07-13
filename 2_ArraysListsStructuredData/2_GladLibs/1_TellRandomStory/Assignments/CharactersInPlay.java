@@ -37,6 +37,14 @@ public class CharactersInPlay{
         }
         // System.out.println(character);
     }
+      
+    public void charactersWithNumParts(int num1, int num2) {
+        for (int i = 0; i < characters.size(); i++) {
+            if (counts.get(i) >= num1 && counts.get(i) <= num2) {
+                System.out.println(characters.get(i));
+            }
+        }
+    }
     
     public void tester() {
         findAllCharacters();        
@@ -53,13 +61,5 @@ public class CharactersInPlay{
         // for (int i = 0; i < characters.size(); i++) {
             // System.out.println(characters.get(i) + " " + counts.get(i));
         // }
-    }
-    
-    public void charactersWithNumParts(int num1, int num2) {
-        for (int i = 0; i < characters.size(); i++) {
-            if (counts.get(i) >= num1 && counts.get(i) <= num2) {
-                System.out.println(characters.get(i));
-            }
-        }
     }
 }

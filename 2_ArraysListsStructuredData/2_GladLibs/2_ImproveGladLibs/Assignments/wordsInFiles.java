@@ -78,17 +78,19 @@ public class wordsInFiles{
         
         for (String s : wordsMap.keySet()) {
             int arrayListSize = wordsMap.get(s).size();
-            System.out.println(s + " appears in " + arrayListSize + " files");
+            ArrayList arrayListFiles = wordsMap.get(s);
+            System.out.println(s + " appears in " + arrayListSize + " files" + arrayListFiles);
         }
         
         int maxFilesWithWord = maxNumber();
         System.out.println("max number of files with same word = " + maxFilesWithWord);
         
-        int num = 3;
+        int num = 4;
         ArrayList<String> wordsInFiles = wordsInNumFiles(num);
-        System.out.println("words that appear in " + num + " files: " + wordsInFiles);
+        System.out.println("words that appear in " + num + " files: " + + wordsInFiles.size() + wordsInFiles);
         
-        String testWord = "cats";
+        String testWord = "sea";
         printFilesIn(testWord);
+        System.out.println(wordsMap);
     }    
 }

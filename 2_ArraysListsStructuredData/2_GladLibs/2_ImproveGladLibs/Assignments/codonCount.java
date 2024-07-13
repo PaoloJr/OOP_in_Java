@@ -47,11 +47,17 @@ public class codonCount{
     public void tester() {
         FileResource fr = new FileResource();
         String frString = fr.asString().toUpperCase().trim();
-        buildCodonMap(2, frString);
+        // buildCodonMap(0, frString);
+        // System.out.println("unique codon count, start at 0 = " + codonMap.size());
+        buildCodonMap(1, frString);
+        System.out.println("unique codon count, start at 1 = " + codonMap.size());
+        // buildCodonMap(2, frString);
+        // System.out.println("unique codon count, start at 2 = " + codonMap.size());
         String mostCommonCodon = getMostCommonCodon();
         System.out.println("most commond codon = " + mostCommonCodon + " with a count of: " + codonMap.get(mostCommonCodon));
         int start = 1;
-        int end = 5;
+        int end = 15;
         printCodonCounts(start, end);
+        System.out.println(codonMap);
     }
 }
