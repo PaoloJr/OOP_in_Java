@@ -1,5 +1,6 @@
 import edu.duke.*;
 import java.util.*;
+import java.io.*;
 
 public class Tester{
     public void testCaesarCipher() {
@@ -115,16 +116,15 @@ public class Tester{
         System.out.println(Arrays.toString(keyArray2));
     }
     
-    // public void testing() {
-        // VigenereBreaker vb = new VigenereBreaker();
-        // FileResource fr = new FileResource("dictionaries/English");
-        // HashSet<String> dictionary = vb.readDictionary(fr);
-        // FileResource encText = new FileResource();
-        // String fileString = encText.asString();
-        // String decryptedMsg = vb.breakForLanguage(fileString, dictionary);
-        // System.out.println(decryptedMsg);
-    // }
-    
+    public void testMostCommonCharIn() {
+        VigenereBreaker vb = new VigenereBreaker();
+        FileResource fr = new FileResource();
+        HashSet<String> dictionary = vb.readDictionary(fr);
+        char mostCommon = vb.mostCommonCharIn(dictionary);
+        
+        System.out.println("Most common char --> " + mostCommon);
+    }    
+
     public void testBreakVigenere() {
         VigenereBreaker vb = new VigenereBreaker();
         vb.breakVigenere();
