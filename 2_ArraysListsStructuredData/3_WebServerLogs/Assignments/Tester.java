@@ -30,7 +30,7 @@ public class Tester
     public void testUniqueIPvisitsOnDay() {
         LogAnalyzer la = new LogAnalyzer();
         la.readFile("../weblog2_log");
-        String date = "Sep 27";
+        String date = "Sep 24";
         ArrayList<String> uniqueIPday = la.uniqueIPVisitsOnDay(date);
         System.out.println(uniqueIPday);
         System.out.println(uniqueIPday.size());
@@ -106,7 +106,7 @@ public class Tester
     public void testIPsWithMostVisitsOnDay() {
         LogAnalyzer la = new LogAnalyzer();
         la.readFile("../weblog2_log");
-        String day = "Sep 29";
+        String day = "Sep 30";
         HashMap<String, ArrayList<String>> ipForDays = la.iPsForDays();
         System.out.println("IPs on " + day + ": " + ipForDays.get(day));
         ArrayList<String> iPsMostVisitsOnDay = la.iPsWithMostVisitsOnDay(ipForDays, day);
