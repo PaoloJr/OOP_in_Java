@@ -41,6 +41,7 @@ public class MyPApplet extends PApplet{
 		float diffFrom30 = Math.abs(30-seconds);
 		
 		float ratio = diffFrom30/30;
+		// casting to int for type-conversion (rgb only accepts int)
 		rgb[0] = (int)(255*ratio);
 		rgb[1] = (int)(255*ratio);
 		rgb[2] = 0;

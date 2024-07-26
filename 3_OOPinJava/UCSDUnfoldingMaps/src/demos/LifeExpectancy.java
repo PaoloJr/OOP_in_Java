@@ -51,7 +51,8 @@ public class LifeExpectancy extends PApplet {
 
 	public void draw() {
 		// Draw map tiles and country markers
-		map.draw();
+//		map.setBackgroundColor(0);
+		map.draw();		
 	}
 
 	//Helper method to color each country based on life expectancy
