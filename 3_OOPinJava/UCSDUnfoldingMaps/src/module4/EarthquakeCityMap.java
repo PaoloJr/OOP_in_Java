@@ -1,7 +1,6 @@
 package module4;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
@@ -13,9 +12,11 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -62,22 +63,23 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+		size(1000, 700, OPENGL);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+//			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 900, 500, new OpenStreetMap.OpenStreetMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
-		    //earthquakesURL = "2.5_week.atom";
+		    earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+//		earthquakesURL = "test1.atom";
+//		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -112,7 +114,21 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
-	 		
+	    
+	    // testing outputs here
+//	    for (Marker mk : cityMarkers) {
+//	    	System.out.println(mk.getProperties());
+//	    }
+//	    for (Marker mk : countryMarkers) {
+//	    	System.out.println(mk.getProperties().toString());
+//	    }
+//	    for (PointFeature pf : earthquakes) {
+//	    	System.out.println(pf.getProperties());
+//	    }
+//	    for (Marker mk : quakeMarkers) {
+//	    	System.out.println(mk.getProperties());
+//	    }
+	    
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -125,33 +141,52 @@ public class EarthquakeCityMap extends PApplet {
 	public void draw() {
 		background(0);
 		map.draw();
-		addKey();
-		
+		addKey();		
 	}
 	
 	// helper method to draw key in GUI
 	// TODO: Update this method as appropriate
-	private void addKey() {	
+	private void addKey() {
 		// Remember you can use Processing's graphics methods here
+//		fill(255, 250, 240);
+//		rect(25, 50, 150, 250, 28);
+//		
+//		fill(0);
+//		textAlign(LEFT, CENTER);
+//		textSize(12);
+//		text("Earthquake Key", 50, 75);
+		
+//		fill(color(255, 0, 0));
+//		ellipse(50, 125, 15, 15);
+//		fill(color(255, 255, 0));
+//		ellipse(50, 175, 10, 10);
+//		fill(color(0, 0, 255));
+//		ellipse(50, 225, 5, 5);
+//		
+//		fill(0, 0, 0);
+//		text("5.0+ Magnitude", 75, 125);
+//		text("4.0+ Magnitude", 75, 175);
+//		text("Below 4.0", 75, 225);
+		
+		
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 250, 28);
 		
 		fill(0);
-		textAlign(LEFT, CENTER);
 		textSize(12);
 		text("Earthquake Key", 50, 75);
 		
-		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
-		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
-		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		int triSize = 5;
+		int x = 60;
+		int y = 100;
+		fill(218, 112, 214);
+	    triangle(x, y - triSize, x - triSize, y + triSize, x + triSize, y + triSize);
+		
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("City Marker", 75, 105);
+//		text("4.0+ Magnitude", 75, 175);
+//		text("Below 4.0", 75, 225);
 	}
 
 	
@@ -170,9 +205,11 @@ public class EarthquakeCityMap extends PApplet {
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
 			// TODO: Finish this method using the helper method isInCountry
-			
-		}
-		
+			boolean isInCountry = isInCountry(earthquake, m);
+			if (isInCountry) {
+				return true;
+			}			
+		}	
 		
 		// not inside any country
 		return false;
@@ -210,8 +247,32 @@ public class EarthquakeCityMap extends PApplet {
 		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
 		//      property set.  You can get the country with:
 		//        String country = (String)m.getProperty("country");
-		
-		
+		HashMap<String, Integer> allCounts = new HashMap<String, Integer>();
+		for (Marker em : quakeMarkers) {
+			String country = (String)em.getProperty("country");
+			String oceanQuakes = "OCEAN QUAKES";
+			 if (country == null) {
+			        // Handle ocean quakes
+			        if (allCounts.containsKey(oceanQuakes)) {
+			            int value = allCounts.get(oceanQuakes);
+			            allCounts.put(oceanQuakes, value + 1);
+			        } else {
+			            allCounts.put(oceanQuakes, 1);
+			        }
+			    } else {
+			        // Handle country-specific quakes
+			        if (allCounts.containsKey(country)) {
+			            int value = allCounts.get(country);
+			            allCounts.put(country, value + 1);
+			        } else {
+			            allCounts.put(country, 1);
+			        }
+			    }
+			}
+		for (String s : allCounts.keySet()) {
+			int value = allCounts.get(s);
+			System.out.println(s + ": " + value);
+		}
 	}
 	
 	
