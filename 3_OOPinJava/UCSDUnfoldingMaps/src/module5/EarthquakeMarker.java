@@ -73,14 +73,8 @@ public abstract class EarthquakeMarker extends CommonMarker
 			
 			pg.strokeWeight(2);
 			int buffer = 2;
-			pg.line(x-(radius+buffer), 
-					y-(radius+buffer), 
-					x+radius+buffer, 
-					y+radius+buffer);
-			pg.line(x-(radius+buffer), 
-					y+(radius+buffer), 
-					x+radius+buffer, 
-					y-(radius+buffer));
+			pg.line(x-(radius+buffer),	y-(radius+buffer), x+radius+buffer,	y+radius+buffer);
+			pg.line(x-(radius+buffer), y+(radius+buffer), x+radius+buffer, y-(radius+buffer));
 			
 		}
 		

@@ -68,13 +68,11 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		
 		// OPTIONAL TODO: draw X over marker if within past day
 		String age = getAge();
-//		int sizeX = 10;
-//		int sizeY = 10;
+		int some = 2;
+		pg.strokeWeight(2);
 		if (age.equals("Past Day")) {
-//			pg.line(x - size / 2, y - size / 2, x + size / 2, y + size / 2); // Top-left to bottom-right
-//			pg.line(x - size / 2, y + size / 2, x + size / 2, y - size / 2); // Bottom-left to top-right
-			pg.line(x - radius, y - radius, x + (radius*2), y + (radius*2)); // Top-left to bottom-right
-	        pg.line(x - radius, y + (radius*2), x + (radius*2), y - radius); // Bottom-left to top-right
+			pg.line(x - (radius+some), y - (radius+some), x + (radius+some), y + (radius+some)); // Top-left to bottom-right
+	        pg.line(x - (radius+some), y + (radius+some), x + (radius+some), y - (radius+some)); // Bottom-left to top-right
 		}			
 		
 		// reset to previous styling
