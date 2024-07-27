@@ -214,8 +214,7 @@ public class EarthquakeCityMap extends PApplet {
 				}
 				for (Marker mhide : quakeMarkers) {
 					EarthquakeMarker quakeMarker = (EarthquakeMarker)mhide;
-					if (quakeMarker.getDistanceTo(marker.getLocation()) 
-							> quakeMarker.threatCircle()) {
+					if (quakeMarker.getDistanceTo(marker.getLocation()) > quakeMarker.threatCircle()) {
 						quakeMarker.setHidden(true);
 					}
 				}
@@ -241,8 +240,7 @@ public class EarthquakeCityMap extends PApplet {
 					}
 				}
 				for (Marker mhide : cityMarkers) {
-					if (mhide.getDistanceTo(marker.getLocation()) 
-							> marker.threatCircle()) {
+					if (mhide.getDistanceTo(marker.getLocation()) > marker.threatCircle()) {
 						mhide.setHidden(true);
 					}
 				}

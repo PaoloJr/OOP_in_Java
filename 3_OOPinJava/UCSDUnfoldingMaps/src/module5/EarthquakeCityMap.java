@@ -13,7 +13,9 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
+import module6.CommonMarker;
 import parsing.ParseFeed;
 import processing.core.PApplet;
 
@@ -64,13 +66,14 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+		size(1000, 700, OPENGL);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+//			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 900, 500, new OpenStreetMap.OpenStreetMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -146,6 +149,17 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		if (lastSelected != null) {
+			return;
+		}
+		
+		for (Marker mk : markers) {
+			if(mk.isInside(map, mouseX, mouseY)) {
+				lastSelected = (CommonMarker)mk;
+				mk.setSelected(true);
+				return;
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
@@ -159,8 +173,35 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		if (lastClicked != null) {
+			unhideMarkers();
+			lastClicked = null;
+			return;
+		} else if (lastClicked == null) {
+			checkEarthquakeClicked();
+			checkCityClicked();			
+		}
+		
 	}
 	
+	// helper method to check for earthquake click
+	private void checkEarthquakeClicked() {
+		for (Marker mk : quakeMarkers) {
+			if(!mk.isHidden() && mk.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker)mk;
+			}
+		}
+		for (Marker marker : quakeMarkers) {
+			if (marker != lastClicked) {
+				marker.setHidden(true);
+			}
+		}
+	}
+	
+	// helper method to check for city click
+	private void checkCityClicked() {
+		
+	}
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {
