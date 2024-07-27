@@ -22,8 +22,7 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	//
 	// You will want to set this in the constructor, either
 	// using the thresholds below, or a continuous function
-	// based on magnitude. 
-  
+	// based on magnitude.   
 	
 	
 	/** Greater than or equal to this threshold is a moderate earthquake */
@@ -67,7 +66,16 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		// call abstract method implemented in child class to draw marker shape
 		drawEarthquake(pg, x, y);
 		
-		// OPTIONAL TODO: draw X over marker if within past day		
+		// OPTIONAL TODO: draw X over marker if within past day
+		String age = getAge();
+//		int sizeX = 10;
+//		int sizeY = 10;
+		if (age.equals("Past Day")) {
+//			pg.line(x - size / 2, y - size / 2, x + size / 2, y + size / 2); // Top-left to bottom-right
+//			pg.line(x - size / 2, y + size / 2, x + size / 2, y - size / 2); // Bottom-left to top-right
+			pg.line(x - radius, y - radius, x + (radius*2), y + (radius*2)); // Top-left to bottom-right
+	        pg.line(x - radius, y + (radius*2), x + (radius*2), y - radius); // Bottom-left to top-right
+		}			
 		
 		// reset to previous styling
 		pg.popStyle();
@@ -81,12 +89,28 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+		int red = pg.color(255, 0, 0);
+		int blue = pg.color(0, 0, 255);
+		int yellow = pg.color(255, 255, 0);
+		
+		float depthOfQuake = EarthquakeMarker.this.getDepth();
+		if (depthOfQuake > THRESHOLD_DEEP) {
+			pg.fill(red);
+		} else if (depthOfQuake <= THRESHOLD_DEEP && depthOfQuake > THRESHOLD_INTERMEDIATE) {
+			pg.fill(blue);
+		} else {
+			pg.fill(yellow);
+		}
 	}
 	
 	
 	/*
 	 * getters for earthquake properties
 	 */
+	
+	public String getAge() {
+		return (String) getProperty("age");
+	}
 	
 	public float getMagnitude() {
 		return Float.parseFloat(getProperty("magnitude").toString());

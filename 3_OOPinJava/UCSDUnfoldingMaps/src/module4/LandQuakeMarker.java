@@ -33,7 +33,14 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
-		
+		float magnitude = LandQuakeMarker.this.getMagnitude();
+		if(magnitude > THRESHOLD_MODERATE) {
+			pg.ellipse(x, y, 20, 20);
+		} else if (magnitude >= THRESHOLD_LIGHT && magnitude <= THRESHOLD_MODERATE) {
+			pg.ellipse(x, y, 10, 10);
+		} else {
+			pg.ellipse(x, y, 5, 5);			
+		}		
 	}
 	
 
@@ -41,8 +48,5 @@ public class LandQuakeMarker extends EarthquakeMarker {
 	public String getCountry() {
 		return (String) getProperty("country");
 	}
-
-
-
 		
 }

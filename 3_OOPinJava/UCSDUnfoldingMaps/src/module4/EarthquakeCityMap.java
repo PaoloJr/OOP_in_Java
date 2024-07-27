@@ -82,7 +82,7 @@ public class EarthquakeCityMap extends PApplet {
 //		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -181,12 +181,33 @@ public class EarthquakeCityMap extends PApplet {
 		int y = 100;
 		fill(218, 112, 214);
 	    triangle(x, y - triSize, x - triSize, y + triSize, x + triSize, y + triSize);
+	    
+	    fill(255, 255, 255);
+	    int size = 10;
+	    ellipse(60, 120, size, size);
+	    rect(55, 135, size, size);
+	    
+	    fill(255, 255, 0);
+	    ellipse(60, 195, size, size);
+	    fill(0, 0, 255);
+	    ellipse(60, 215, size, size);
+	    fill(255, 0, 0);
+	    ellipse(60, 235, size, size);
+	    fill(255, 255, 255);
+	    ellipse(60, 255, size, size);
+	    line(50, 265, 70, 245);
+	    line(50, 245, 70, 265);
 		
 		
 		fill(0, 0, 0);
 		text("City Marker", 75, 105);
-//		text("4.0+ Magnitude", 75, 175);
-//		text("Below 4.0", 75, 225);
+		text("Land Quake", 75, 125);
+		text("Ocean Quake", 75, 145);
+		text("Size ~ Magnitude", 55, 170);
+		text("Shallow", 75, 200);
+		text("Intermediate", 75, 220);
+		text("Deep", 75, 240);
+		text("Past Day", 75, 260);
 	}
 
 	
@@ -269,6 +290,7 @@ public class EarthquakeCityMap extends PApplet {
 			        }
 			    }
 			}
+		
 		for (String s : allCounts.keySet()) {
 			int value = allCounts.get(s);
 			System.out.println(s + ": " + value);
