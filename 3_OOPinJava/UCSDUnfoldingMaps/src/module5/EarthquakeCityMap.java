@@ -241,22 +241,6 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 	}
 	
-//	private void checkCityClicked() {
-//		{
-//		    if (lastClicked != null) 
-//		        return;
-//		    for (Marker marker : cityMarkers) {
-//		    	if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY) && lastClicked == null) {
-//		            lastClicked = (CommonMarker)marker;
-//		        }
-//		        else {
-//		            marker.setHidden(true);
-//		        }
-//		    }
-//		   
-//		}
-//	}
-//	
 	private void checkEarthquakesClicked() {
 //		if (lastClicked != null) return;
 		

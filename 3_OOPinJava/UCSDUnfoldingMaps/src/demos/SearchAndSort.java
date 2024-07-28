@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import demos.Airport;
 
 /** 
  * A class to illustrate some searching and sorting algorithms
@@ -85,6 +86,22 @@ public class SearchAndSort {
 		return null; 
 	}
 	
+	
+	
+	public static void tester() {
+		// create a new int array
+		System.out.println("\n --- VALS --- ");
+		int[] vals = new int[]{3, 5, 1, 6, 7, 9, 2, 4, 10};
+		System.out.println(Arrays.toString(vals));
+		// another way of creating an int array (short-hand)
+		System.out.println(" --- VALS2 --- ");
+		int[] vals2 = {3, 5, 1, 6, 7, 9, 2, 4, 10};
+		System.out.println(Arrays.toString(vals2));
+		
+		selectionSort(vals);
+		selectionSort(vals2);
+	}
+	
 	/** Sort an array of ints using Selection Sort */
 	public static void selectionSort( int[] vals )    
 	{
@@ -93,7 +110,7 @@ public class SearchAndSort {
 		for ( int i=0; i < vals.length-1 ; i++ ) {
 			minI = i;
 			
-			for ( int j=i; j < vals.length; j++ ) {
+			for ( int j=i + 1; j < vals.length; j++ ) {
 				if ( vals[j] < vals[minI] ) {
 					minI = j ;
 				}
@@ -101,6 +118,8 @@ public class SearchAndSort {
 			
 			swap(vals, minI, i);
 		}
+		System.out.println(" --- SORTED --- ");
+		System.out.println(Arrays.toString(vals));
 		
 	}
 
@@ -128,7 +147,7 @@ public class SearchAndSort {
 	
 	public static void main(String[] args) throws IOException
 	{
-		String datafile = "data/airports.dat";
+		String datafile = "../data/airports.dat";
 		ArrayList<Airport> airports = readFile(datafile);
 		Collections.sort(airports);
 		
@@ -151,6 +170,7 @@ public class SearchAndSort {
 		{
 			System.out.print(vals[i] + " ");
 		}
+		tester();
 		
 		
 	}
