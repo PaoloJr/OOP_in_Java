@@ -11,11 +11,10 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
-import de.fhpotsdam.unfolding.providers.Google;
+//import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import module6.CommonMarker;
 import parsing.ParseFeed;
 import processing.core.PApplet;
 
@@ -60,6 +59,10 @@ public class EarthquakeCityMap extends PApplet {
 	// A List of country markers
 	private List<Marker> countryMarkers;
 	
+	// new List for all markers (city and earthquakes)
+	// to test if this could work instead (for mouseClicked method) of nested for loops
+//	private List<Marker> allMarkers;
+	
 	// NEW IN MODULE 5
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
@@ -79,7 +82,6 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
-		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
 		List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
@@ -89,7 +91,8 @@ public class EarthquakeCityMap extends PApplet {
 		List<Feature> cities = GeoJSONReader.loadData(this, cityFile);
 		cityMarkers = new ArrayList<Marker>();
 		for(Feature city : cities) {
-		  cityMarkers.add(new CityMarker(city));
+			CityMarker cm = new CityMarker(city);
+			cityMarkers.add(cm);
 		}
 	    
 		//     STEP 3: read in earthquake RSS feed
@@ -99,14 +102,39 @@ public class EarthquakeCityMap extends PApplet {
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
-		    quakeMarkers.add(new LandQuakeMarker(feature));
+			  LandQuakeMarker lqm = new LandQuakeMarker(feature);
+			  quakeMarkers.add(lqm);
 		  }
 		  // OceanQuakes
 		  else {
-		    quakeMarkers.add(new OceanQuakeMarker(feature));
+			  OceanQuakeMarker oqm = new OceanQuakeMarker(feature);
+			  quakeMarkers.add(oqm);
 		  }
 	    }
-
+	    
+	    // testing output of earthquake markers and city markers
+//	    System.out.println(" ----- EARTHQUAKE MARKERS ----- ");
+//	    System.out.println("SIZE --> " + quakeMarkers.size());
+//	    
+//	    for (Marker qmk : quakeMarkers) {
+//	    	System.out.println(qmk.getProperties());
+//	    }
+//	    
+//	    System.out.println(" ----- CITY MARKERS ----- ");
+//	    System.out.println("SIZE --> " + cityMarkers.size());
+//	    
+//	    for (Marker cmk : cityMarkers) {
+//	    	System.out.println(cmk.getProperties());
+//	    }
+	    
+	    // testing output for new List of allMarkers (earthquake and city markers combined)
+//	    System.out.println(" ----- ALL MARKERS ----- ");
+//	    System.out.println("SIZE --> " + allMarkers.size());
+//	    
+//	    for (Marker amk : allMarkers) {
+//	    	System.out.println(amk.getProperties());
+//	    }
+//	    
 	    // could be used for debugging
 	    printQuakes();
 	 		
@@ -154,9 +182,10 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		
 		for (Marker mk : markers) {
-			if(mk.isInside(map, mouseX, mouseY)) {
-				lastSelected = (CommonMarker)mk;
-				mk.setSelected(true);
+			CommonMarker marker = (CommonMarker) mk;
+			if(marker.isInside(map, mouseX, mouseY)) {
+				lastSelected = marker;
+				marker.setSelected(true);
 				return;
 			}
 		}
@@ -178,31 +207,82 @@ public class EarthquakeCityMap extends PApplet {
 			lastClicked = null;
 			return;
 		} else if (lastClicked == null) {
-			checkEarthquakeClicked();
-			checkCityClicked();			
+			checkCityClicked();
+			checkEarthquakesClicked();
 		}
 		
 	}
 	
-	// helper method to check for earthquake click
-	private void checkEarthquakeClicked() {
-		for (Marker mk : quakeMarkers) {
-			if(!mk.isHidden() && mk.isInside(map, mouseX, mouseY)) {
-				lastClicked = (CommonMarker)mk;
-			}
-		}
-		for (Marker marker : quakeMarkers) {
-			if (marker != lastClicked) {
-				marker.setHidden(true);
-			}
-		}
-	}
-	
-	// helper method to check for city click
+	// Helper method to hide all cities that were not clicked and earthquakes outside of threat zone
 	private void checkCityClicked() {
-		
+//	    if (lastClicked != null) return;
+
+	    for (Marker marker : cityMarkers) {
+	        if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
+	        	lastClicked = (CommonMarker) marker;
+//	        	boolean isEarthquake = marker.getProperty("magnitude") != null;
+//	        	boolean isCity = marker.getProperty("name") != null;
+	        	
+//	        	// hide all other city markers
+	        	for (Marker cityHide : cityMarkers) {
+	        		if (cityHide != lastClicked) {
+	        			cityHide.setHidden(true);
+	        		}
+	        	}
+//	        	// hide all earthquakes outside of the threat zone
+	        	for (Marker eqHide : quakeMarkers) {
+	        		EarthquakeMarker eqm  = (EarthquakeMarker) eqHide;
+	        		if (eqm.getDistanceTo(marker.getLocation()) > eqm.threatCircle()) {
+	        			eqm.setHidden(true);
+	        		}
+	        	}
+//	        	return;
+	        }
+	    }
 	}
 	
+//	private void checkCityClicked() {
+//		{
+//		    if (lastClicked != null) 
+//		        return;
+//		    for (Marker marker : cityMarkers) {
+//		    	if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY) && lastClicked == null) {
+//		            lastClicked = (CommonMarker)marker;
+//		        }
+//		        else {
+//		            marker.setHidden(true);
+//		        }
+//		    }
+//		   
+//		}
+//	}
+//	
+	private void checkEarthquakesClicked() {
+//		if (lastClicked != null) return;
+		
+		for (Marker marker : quakeMarkers ) {
+			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
+				EarthquakeMarker eqm = (EarthquakeMarker) marker;
+				lastClicked = eqm;
+				
+			// to hide all other earthquakes
+				for (Marker eqMarker : quakeMarkers) {
+					if (eqMarker != lastClicked) {
+						eqMarker.setHidden(true);
+					}
+				}
+				
+			// to hide all cities outside of the earthquake's threat zone
+				for (Marker eqHide : cityMarkers) {
+					if (eqHide.getDistanceTo(eqm.getLocation()) > eqm.threatCircle()) {
+						eqHide.setHidden(true);
+					}
+				}
+//				return;
+			}
+		}
+	}
+
 	// loop over and unhide all markers
 	private void unhideMarkers() {
 		for(Marker marker : quakeMarkers) {
@@ -319,7 +399,6 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		System.out.println("OCEAN QUAKES: " + totalWaterQuakes);
 	}
-	
 	
 	
 	// helper method to test whether a given earthquake is in a given country
