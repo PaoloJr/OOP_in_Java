@@ -9,7 +9,6 @@ import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.data.ShapeFeature;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimpleLinesMarker;
-import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import de.fhpotsdam.unfolding.geo.Location;
 import parsing.ParseFeed;
@@ -27,12 +26,16 @@ public class AirportMap extends PApplet {
 	private List<Marker> airportList;
 	List<Marker> routeList;
 	
+	private CommonMarker lastSelected;
+	private CommonMarker lastClicked;
+//	private CommonMarker countrySelection;
+	
 	public void setup() {
-		// setting up PAppler
-		size(800,600, OPENGL);
+		// setting up PApplet
+		size(1200,800, OPENGL);
 		
 		// setting up map and default events
-		map = new UnfoldingMap(this, 50, 50, 750, 550);
+		map = new UnfoldingMap(this, 300, 50, 900, 700);
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// get features from airport data
@@ -40,26 +43,14 @@ public class AirportMap extends PApplet {
 		
 		// list for markers, hashmap for quicker access when matching with routes
 		airportList = new ArrayList<Marker>();
-		HashMap<Integer, Location> airports = new HashMap<Integer, Location>();
-		
-		// create markers from features
-		for(PointFeature feature : features) {
-			AirportMarker m = new AirportMarker(feature);
-	
-			m.setRadius(5);
-			airportList.add(m);
-			
-			// put airport in hashmap with OpenFlights unique id for key
-			airports.put(Integer.parseInt(feature.getId()), feature.getLocation());
-		
-		}
-		
+		HashMap<Integer, Location> airports = new HashMap<Integer, Location>();	
 		
 		// parse route data
 		List<ShapeFeature> routes = ParseFeed.parseRoutes(this, "routes.dat");
 		routeList = new ArrayList<Marker>();
+		
+		
 		for(ShapeFeature route : routes) {
-			
 			// get source and destination airportIds
 			int source = Integer.parseInt((String)route.getProperty("source"));
 			int dest = Integer.parseInt((String)route.getProperty("destination"));
@@ -71,27 +62,202 @@ public class AirportMap extends PApplet {
 			}
 			
 			SimpleLinesMarker sl = new SimpleLinesMarker(route.getLocations(), route.getProperties());
-		
-			System.out.println(sl.getProperties());
+			
+//			System.out.println(sl.getProperties());
 			
 			//UNCOMMENT IF YOU WANT TO SEE ALL ROUTES
-			//routeList.add(sl);
+			routeList.add(sl);			
+		}
+		
+		// create markers from features
+		for(PointFeature feature : features) {
+			// put airport in hashmap with OpenFlights unique id for key
+			int airportId = Integer.parseInt(feature.getId());
+			Location airportLocation = feature.getLocation();
+			
+			AirportMarker m = new AirportMarker(feature, airportId, routeList);
+			m.setRadius(5);
+			airportList.add(m);			
+			
+			airports.put(airportId, airportLocation);
+//			System.out.println(feature.getProperties());				
 		}
 		
 		
+//		for (Marker amk : airportList) {
+//			System.out.println(amk.getProperties());
+//		}
 		
-		//UNCOMMENT IF YOU WANT TO SEE ALL ROUTES
-		//map.addMarkers(routeList);
+//		for (Marker rmk : routeList) {
+//			System.out.println(rmk.getProperties());
+//		}
 		
-		map.addMarkers(airportList);
+		map.addMarkers(routeList);
+		map.addMarkers(airportList);		
 		
 	}
 	
 	public void draw() {
 		background(0);
 		map.draw();
+        addKey();
+    }
+	
+			
+	private void addKey() {	
+		fill(255, 250, 240);
+		
+		int xbase = 25;
+		int ybase = 50;
+		int keyWidth = 200;
+		int keyHeight = 500;
+		int red = color(255, 0, 0);
+		int yellow = color(255, 255, 0);
+		int blue = color(0, 0, 255);
+		String textC = "Click 'c' for Canada";
+		String textU = "Click 'u' for US";
+		String textI = "Click 'i' for Italy";
+		String textA = "Click 'a' for All";
+		String hover = "Hover over airport for more details";
+		String click = "Click an airport to see routes";
+		
+		rect(xbase, ybase, keyWidth, keyHeight, 20);
+		
+		fill(0);
+		textAlign(LEFT, CENTER);
+		textSize(16);
+		text("Global Airports", xbase + 25, ybase + 25);
+		
+		fill(red);
+		int circle_xbase = xbase + 35;
+		int circle_ybase = ybase + 50;
+		ellipse(circle_xbase, circle_ybase + 10, 10, 10);
+		fill(yellow);
+		ellipse(circle_xbase, circle_ybase + 40, 10, 10);
+		fill(blue);
+		ellipse(circle_xbase, circle_ybase + 70, 10, 10);
+
+		fill(0, 0, 0);
+		textAlign(LEFT, CENTER);
+		textSize(14);
+		text("Routes > 50", circle_xbase + 15, circle_ybase + 10);
+		text("Routes < 5", circle_xbase + 15, circle_ybase + 40);
+		text("Routes 5 - 50", circle_xbase + 15, circle_ybase + 70);
+		text("------------------------", circle_xbase, circle_ybase + 95);
+		text(textC, circle_xbase, circle_ybase + 125);
+		text(textU, circle_xbase, circle_ybase + 155);
+		text(textI, circle_xbase, circle_ybase + 185);
+		text(textA, circle_xbase, circle_ybase + 215);
+		text(hover, xbase + 20, circle_ybase + 235, 165, 165);
+		text(click, xbase + 20, circle_ybase + 285, 175, 175);
 		
 	}
 	
+	
+	public void mouseClicked() {
+		if (lastClicked != null) {
+			unhideMarkers();
+			lastClicked = null;
+		} else if (lastClicked == null) {
+			checkMarkersForClick();
+		}
+	}
+	
+	private void unhideMarkers() {
+		for (Marker marker : airportList) {
+			marker.setHidden(false);
+		}
+		
+		for (Marker marker : routeList) {
+			marker.setHidden(false);
+		}
+	}
+	
+	public void mouseMoved()
+	{
+		if (lastSelected != null) {
+			lastSelected.setSelected(false);
+			lastSelected = null;
+		
+		}
+		selectMarkerIfHover(airportList);
+	}
 
+	private void selectMarkerIfHover(List<Marker> markers)
+	{
+		if (lastSelected != null) {
+			return;
+		}
+		
+		for (Marker m : markers) 
+		{
+			CommonMarker marker = (CommonMarker)m;
+			if (marker.isInside(map,  mouseX, mouseY)) {
+				lastSelected = marker;
+				marker.setSelected(true);
+				return;
+			}
+		}
+	}
+	
+	private void checkMarkersForClick() {
+		for (Marker marker : airportList) {
+			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
+				lastClicked = (AirportMarker)marker;
+				System.out.println(lastClicked.getProperties());
+				
+//				 // SHOW ROUTES for the clicked airport:
+                for (Marker route : routeList) { 
+                    int source = Integer.parseInt((String) route.getProperty("source"));
+                    String dest = route.getStringProperty("destination");
+//
+//                    // Check if this route is connected to the clicked airport
+//                 
+                }
+
+                // HIDE other airports:
+                for (Marker otherAirport : airportList) {
+                    if (otherAirport != lastClicked) {
+                        otherAirport.setHidden(true);
+                    }
+                }
+				return;
+			}
+		}
+	}
+	
+	public void keyPressed() {
+//		if (countrySelection != null) return;
+		
+		if (key == 'c') {
+			System.out.println("Displaying Canadian airports...");
+			for (Marker marker : airportList) {
+				String country = marker.getStringProperty("country").replace("\"", "");
+				if (!country.equalsIgnoreCase("canada")) {
+					marker.setHidden(true);
+				}
+			}
+		} else if (key == 'i') {
+			System.out.println("Displaying Italian airports");
+			for (Marker marker : airportList) {
+				String country = marker.getStringProperty("country").replace("\"", "");
+				if (!country.equalsIgnoreCase("Italy")) {
+					marker.setHidden(true);
+				}
+			}
+		} else if (key == 'u') {
+			System.out.println("Displaying US airports");
+			for (Marker marker : airportList) {
+				String country = marker.getStringProperty("country").replace("\"", "");
+				if (!country.equalsIgnoreCase("United States")) {
+					marker.setHidden(true);
+				}
+			}
+		} else if (key == 'a') {
+			System.out.println("Displaying all airports");
+			for (Marker marker : airportList) {
+					marker.setHidden(false);
+				}
+			}
+		}
 }

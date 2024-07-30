@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -84,7 +85,7 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
 		//earthquakesURL = "quiz2.atom";
@@ -119,13 +120,19 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+//	    sortAndPrint(3);
+//	    sortAndPrint(5);
+//	    sortAndPrint(10);
+	    System.out.println(" --- PRINT TOP --- ");
+	    sortAndPrint(20);
+	    System.out.println(" --- PRINT ALL --- ");	    
+	    sortAndPrint(10000);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
-	    map.addMarkers(cityMarkers);
-	    
+	    map.addMarkers(cityMarkers);	    
 	    
 	}  // End setup
 	
@@ -141,6 +148,37 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint) {
+		List<EarthquakeMarker> eqml = new ArrayList<EarthquakeMarker>();
+		EarthquakeMarker eqm;
+		for (Marker mk : quakeMarkers) {
+			eqm = (EarthquakeMarker)mk;
+			eqml.add(eqm);
+		}
+//		System.out.println(" --- BEFORE SORT --- ");
+//		for (EarthquakeMarker emk : eqml) {
+//			System.out.println(emk);
+//		}
+		Collections.sort(eqml);
+		// if the compareTo floats are inverted (see EarthquakeMarker class)
+//		Collections.sort(eqml, Collections.reverseOrder());
+		
+//		System.out.println(" --- AFTER SORT --- ");
+//		for (EarthquakeMarker emk : eqml) {
+//			System.out.println(emk);
+//		}
+		if (numToPrint <= eqml.size()) {
+			for (int i = 0; i < numToPrint; i++) {
+				EarthquakeMarker currMarker = eqml.get(i);
+				System.out.println(currMarker);
+				}
+		} else {
+			for (int i = 0; i < eqml.size(); i++) {
+				EarthquakeMarker currMarker = eqml.get(i);
+				System.out.println(currMarker);
+			}
+		}
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
