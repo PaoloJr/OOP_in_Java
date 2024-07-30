@@ -70,10 +70,23 @@ public class AirportMap extends PApplet {
 		}
 		
 		// create markers from features
+		HashMap<Integer, ArrayList<Integer>> airportDestinations = new HashMap<Integer, ArrayList<Integer>>();
 		for(PointFeature feature : features) {
+			
 			// put airport in hashmap with OpenFlights unique id for key
 			int airportId = Integer.parseInt(feature.getId());
 			Location airportLocation = feature.getLocation();
+			
+//			if (airportId == routeList.get(airportId)) {
+//				
+//			}
+//			for (Marker mk : routeList) {
+//				 int sourceId = Integer.parseInt((String) mk.getProperty("source"));
+//			     int destinationId = Integer.parseInt((String) mk.getProperty("destination"));
+//			     
+//			     airportDestinations.putIfAbsent(sourceId, new ArrayList<Integer>());
+//			     airportDestinations.get(sourceId).add(destinationId);
+//			}
 			
 			AirportMarker m = new AirportMarker(feature, airportId, routeList);
 			m.setRadius(5);
@@ -83,6 +96,9 @@ public class AirportMap extends PApplet {
 //			System.out.println(feature.getProperties());				
 		}
 		
+		for (Integer i : airportDestinations.keySet()) {
+			System.out.println(airportDestinations.get(i).toArray());
+		}
 		
 //		for (Marker amk : airportList) {
 //			System.out.println(amk.getProperties());
