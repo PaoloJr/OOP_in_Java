@@ -18,14 +18,14 @@ import processing.core.PGraphics;
  *
  */
 public class AirportMarker extends CommonMarker {
-	public List<SimpleLinesMarker> routes;
-	public List<Marker> routesList;
+//	public List<SimpleLinesMarker> routes;
+	private ArrayList<Marker> destinations;
 	
 	private String cityAndCountry;
 	private String airportName;
 	private String airportCode;
 	private String airportAltitude;
-	private int airportID;
+	private String airportID;
 	private int numRoutes;
 	private String airportText = "Airport Name: ";
 	private String airportCodeText = "Airport Code: ";
@@ -33,15 +33,15 @@ public class AirportMarker extends CommonMarker {
 	private String airportAltitudeText = "Altitude: ";
 	private String routesText = "# of routes: ";
 	
-	public AirportMarker(Feature city, int airportId, List<Marker> allRoutes) {
+	public AirportMarker(Feature city) {
 		super(((PointFeature)city).getLocation(), city.getProperties());
-		routesList = allRoutes;
-		cityAndCountry = getCity().replace("\"", "") + ", " + getCountry().replace("\"", "");
-		airportName = getAirportName().replace("\"", "");
-		airportCode = getCode().replace("\"", "");
-		airportAltitude = getAltitude().replace("\"", "");
-		airportID = airportId;
-		numRoutes = getNumberOfRoutes();
+		this.destinations = new ArrayList<Marker>();
+		this.cityAndCountry = getCity().replace("\"", "") + ", " + getCountry().replace("\"", "");
+		this.airportName = getAirportName().replace("\"", "");
+		this.airportCode = getCode().replace("\"", "");
+		this.airportAltitude = getAltitude().replace("\"", "");
+		this.airportID = city.getId();
+		this.numRoutes = 0;
 	}
 	
 	@Override
@@ -100,7 +100,7 @@ public class AirportMarker extends CommonMarker {
 		return getStringProperty("code");
 	}
 	
-	public int getAirportID() {
+	public String getAirportID() {
 		return this.airportID;
 	}
 	
@@ -108,20 +108,20 @@ public class AirportMarker extends CommonMarker {
 		return getStringProperty("altitude");
 	}
 	
-    public void addRoute(SimpleLinesMarker sl) {
-		  routes.add(sl);
+	 public void setNumRoutes(int numRoutes) {
+	        this.numRoutes = numRoutes;
+	    }
+	
+	public void addDestination(AirportMarker destination) {
+		this.destinations.add(destination);
+	}
+    
+    public ArrayList<Marker> getDestinations() {
+    	return destinations;
     }
 	
-	public int getNumberOfRoutes() {
-		int count = 0;
-		
-		for (Marker route : routesList) {
-			int source = Integer.parseInt((String) route.getProperty("source"));
-			if (source == airportID) {
-				count++;
-			}
-		}
-		return count;
+	public int getNumberOfDestinations() {
+		return destinations.size();
 	}
 		
 }
