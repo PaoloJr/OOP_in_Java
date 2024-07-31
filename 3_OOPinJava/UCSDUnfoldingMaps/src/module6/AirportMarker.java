@@ -85,19 +85,19 @@ public class AirportMarker extends CommonMarker {
 	}
 	
 	private String getCity() {
-		return getStringProperty("city");
+		return this.getStringProperty("city");
 	}
 	
 	private String getCountry()	{
-		return getStringProperty("country");
+		return this.getStringProperty("country");
 	}
 	
 	private String getAirportName()	{
-		return getStringProperty("name");
+		return this.getStringProperty("name");
 	}
 	
 	public String getCode() {
-		return getStringProperty("code");
+		return this.getStringProperty("code");
 	}
 	
 	public String getAirportID() {
@@ -105,7 +105,7 @@ public class AirportMarker extends CommonMarker {
 	}
 	
 	public String getAltitude() {
-		return getStringProperty("altitude");
+		return this.getStringProperty("altitude");
 	}
 	
 	 public void setNumRoutes(int numRoutes) {
@@ -117,11 +117,11 @@ public class AirportMarker extends CommonMarker {
 	}
     
     public ArrayList<Marker> getDestinations() {
-    	return destinations;
+    	return this.destinations;
     }
 	
 	public int getNumberOfDestinations() {
-		return destinations.size();
+		return this.destinations.size();
 	}
 		
 }

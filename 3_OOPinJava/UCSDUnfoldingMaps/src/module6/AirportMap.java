@@ -45,7 +45,8 @@ public class AirportMap extends PApplet {
 		// list for markers, hashmap for quicker access when matching with routes
 		airportList = new ArrayList<Marker>();
 		HashMap<Integer, Location> airports = new HashMap<Integer, Location>();
-		 airportRouteCounts = new HashMap<Integer, ArrayList<Marker>>();
+		// hashmap for each airport ID (source and a list of the markers (includes destination and source)
+		airportRouteCounts = new HashMap<Integer, ArrayList<Marker>>();
 		
 		// create markers from features
 		for(PointFeature feature : features) {
@@ -89,7 +90,7 @@ public class AirportMap extends PApplet {
 			routeList.add(sl);
 		}
 		
-		// Set numRoutes for each AirportMarker
+		// Set numRoutes for each AirportMarker (by airportID in the hashmap)
 		for (Marker marker : airportList) {
 		        AirportMarker airportMarker = (AirportMarker) marker;
 		        int airportId = Integer.parseInt(airportMarker.getAirportID());
