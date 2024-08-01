@@ -29,8 +29,7 @@ public abstract class Document {
 	 * @return A List of tokens from the document text that match the regex 
 	 *   pattern
 	 */
-	protected List<String> getTokens(String pattern)
-	{
+	protected List<String> getTokens(String pattern) {
 		ArrayList<String> tokens = new ArrayList<String>();
 		Pattern tokSplitter = Pattern.compile(pattern);
 		Matcher m = tokSplitter.matcher(text);
@@ -62,12 +61,33 @@ public abstract class Document {
 	 *       is not considered a syllable unless the word has no other syllables. 
 	 *       You should consider y a vowel.
 	 */
-	protected int countSyllables(String word)
-	{
+	protected int countSyllables(String word) {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 2) and 
 	    // EfficientDocument (module 3).
-	    return 0;
+		int syllables = 0;
+		boolean foundSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++) {
+			// if the last char of the word is 'e' and the count is greater than 0 (cannot have negative!) decrement the syllables count
+			if(i == cArray.length - 1 && Character.toLowerCase(cArray[i]) == vowels.charAt(1) && foundSyllable && syllables > 0) {
+				syllables--;
+			}
+			// if a syllable is found increment the syllables count
+			// update foundSyllable to mostly go into the else if below; the last iteration will check the top if statement
+			if (foundSyllable && !(vowels.indexOf(Character.toLowerCase(cArray[i])) == -1)) {
+				syllables++;
+				foundSyllable = false;
+			}
+			// if vowel is not found, set foundSyllable to true to keep looking (mostly going to the second if statement)
+			// the loop mostly comes back here to reset the foundSyllable value in order to keep checkin in the statements above
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) == -1) {
+				foundSyllable = true;
+			}
+		}
+		
+	    return syllables;
 	}
 	
 	/** A method for testing
@@ -86,6 +106,9 @@ public abstract class Document {
 		int syllFound = doc.getNumSyllables();
 		int wordsFound = doc.getNumWords();
 		int sentFound = doc.getNumSentences();
+		double fleschScore = doc.getFleschScore();
+		System.out.println(" --- FLESCH SCORE ---");
+		System.out.println(fleschScore);
 		if (syllFound != syllables) {
 			System.out.println("\nIncorrect number of syllables.  Found " + syllFound 
 					+ ", expected " + syllables);
@@ -128,11 +151,20 @@ public abstract class Document {
 	}
 	
 	/** return the Flesch readability score of this document */
-	public double getFleschScore()
-	{
+	public double getFleschScore() {
 	    // TODO: You will play with this method in week 1, and 
 		// then implement it in week 2
-	    return this.text.length();
+		System.out.println(" --- Flesch score parameters ---");
+		int numWords = getNumWords();
+		System.out.println("numWords --> " + numWords);
+		int numSentences = getNumSentences();
+		System.out.println("numSentences --> " + numSentences);
+		int numSyllables = getNumSyllables();
+		System.out.println("numSyllables --> " + numSyllables);
+		double fleschScore = 206.835 - 1.015*((double)numWords/(double)numSentences) - 84.6*((double)numSyllables/(double)numWords);
+		
+//	    return this.text.length();
+		return fleschScore;
 	}
 	
 	
