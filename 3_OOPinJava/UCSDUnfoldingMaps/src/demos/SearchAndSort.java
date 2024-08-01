@@ -95,7 +95,7 @@ public class SearchAndSort {
 		System.out.println(Arrays.toString(vals));
 		// another way of creating an int array (short-hand)
 		System.out.println(" --- VALS2 --- ");
-		int[] vals2 = {3, 5, 1, 6, 7, 9, 2, 4, 10};
+		int[] vals2 = {5, 3, 6, 1, 9, 8, 7, 2, 4, 10, 11, 12};
 		System.out.println(Arrays.toString(vals2));
 		
 		selectionSort(vals);
@@ -124,20 +124,18 @@ public class SearchAndSort {
 	}
 
 	
-	private static void swap(int[] vals, int ind1, int ind2)
-	{
+	private static void swap(int[] vals, int ind1, int ind2) {
 		int temp = vals[ind1];
 		vals[ind1] = vals[ind2];
 		vals[ind2] = temp;
 	}
 	
-	/** Sort an array of ints using a mystery algorithm */
+	/** Sort an array of ints using a mystery algorithm (insertion sort) */
 	public static void mysterySort( int[] vals )    {
 		  int currInd;
 		  for ( int pos=1; pos < vals.length ; pos++ ) {
 		    currInd = pos ;
-		    while ( currInd > 0 && 
-			    vals[currInd] < vals[currInd-1] ) {
+		    while ( currInd > 0 &&  vals[currInd] < vals[currInd-1] ) {
 		      swap(vals, currInd, currInd-1);
 		      currInd = currInd - 1;
 		    }
@@ -147,7 +145,7 @@ public class SearchAndSort {
 	
 	public static void main(String[] args) throws IOException
 	{
-		String datafile = "../data/airports.dat";
+		String datafile = "data/airports.dat";
 		ArrayList<Airport> airports = readFile(datafile);
 		Collections.sort(airports);
 		
@@ -163,15 +161,12 @@ public class SearchAndSort {
 		}
 		System.out.println("\nSorted ints are...");
 		
-		mysterySort(vals);
-		//selectionSort(vals);
+//		mysterySort(vals);
+//		selectionSort(vals);
 		
-		for (int i = 0; i < vals.length; i++) 
-		{
+		for (int i = 0; i < vals.length; i++) {
 			System.out.print(vals[i] + " ");
 		}
-		tester();
-		
-		
+		tester();		
 	}
 }
