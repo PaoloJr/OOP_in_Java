@@ -154,13 +154,13 @@ public abstract class Document {
 	public double getFleschScore() {
 	    // TODO: You will play with this method in week 1, and 
 		// then implement it in week 2
-		System.out.println(" --- Flesch score parameters ---");
+//		System.out.println(" --- Flesch score parameters ---");
 		int numWords = getNumWords();
-		System.out.println("numWords --> " + numWords);
+//		System.out.println("numWords --> " + numWords);
 		int numSentences = getNumSentences();
-		System.out.println("numSentences --> " + numSentences);
+//		System.out.println("numSentences --> " + numSentences);
 		int numSyllables = getNumSyllables();
-		System.out.println("numSyllables --> " + numSyllables);
+//		System.out.println("numSyllables --> " + numSyllables);
 		double fleschScore = 206.835 - 1.015*((double)numWords/(double)numSentences) - 84.6*((double)numSyllables/(double)numWords);
 		
 //	    return this.text.length();
