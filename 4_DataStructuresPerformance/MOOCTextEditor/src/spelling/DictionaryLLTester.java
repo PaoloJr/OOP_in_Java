@@ -42,11 +42,9 @@ public class DictionaryLLTester {
 	}
 
 	
-	/** Test if the size method is working correctly.
-	 */
+	/** Test if the size method is working correctly. */
 	@Test
-	public void testSize()
-	{
+	public void testSize() {
 		assertEquals("Testing size for empty dict", 0, emptyDict.size());
 		assertEquals("Testing size for small dict", 4, smallDict.size());
 		assertEquals("Testing size for large dict", 4438, largeDict.size());
@@ -54,8 +52,7 @@ public class DictionaryLLTester {
 	
 	/** Test the isWord method */
 	@Test
-	public void testIsWord()
-	{
+	public void testIsWord() {
 		assertEquals("Testing isWord on empty: Hello", false, emptyDict.isWord("Hello"));
 		assertEquals("Testing isWord on small: Hello", true, smallDict.isWord("Hello"));
 		assertEquals("Testing isWord on large: Hello", true, largeDict.isWord("Hello"));
