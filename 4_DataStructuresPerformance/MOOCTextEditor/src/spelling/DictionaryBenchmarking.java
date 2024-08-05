@@ -33,6 +33,7 @@ public class DictionaryBenchmarking {
 		
 		String notInDictionary = "notaword";
 		
+		System.out.println("Size" + "\tTimeLL(s)" + "\tTimeBST(s)");
 		// TODO: Play around with the numbers above and graph the output to see trends in the data
 		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
 				numToCheck += increment)
@@ -44,21 +45,24 @@ public class DictionaryBenchmarking {
 			DictionaryLoader.loadDictionary(llDict, dictFile, numToCheck);
 			DictionaryLoader.loadDictionary(bstDict, dictFile, numToCheck);
 			
+			// LinkedList dictionary
 			long startTime = System.nanoTime();
 			for (int i = 0; i < trials; i++) {
 				llDict.isWord(notInDictionary);
 			}
 			long endTime = System.nanoTime();
-			long timeLL = (endTime - startTime);  
+			double timeLL = (endTime - startTime)/1_000_000_000.0;  
 			
+			// BST dictionary
 			startTime = System.nanoTime();
 			for (int i = 0; i < trials; i++) {
 				bstDict.isWord(notInDictionary);
 			}
 			endTime = System.nanoTime();
-			long timeBST = (endTime - startTime);
+			double timeBST = (endTime - startTime)/1_000_000_000.0;
 			
-			System.out.println(numToCheck + "\t" + timeLL + "\t" + timeBST);
+//			System.out.println(numToCheck + "\t" + timeLL + "\t" + timeBST);
+			System.out.printf("%d\t%.6f\t%.6f%n", numToCheck, timeLL, timeBST);
 			
 		}
 	
