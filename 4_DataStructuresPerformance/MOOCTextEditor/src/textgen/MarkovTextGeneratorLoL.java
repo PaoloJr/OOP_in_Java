@@ -33,6 +33,13 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void train(String sourceText)
 	{
 		// TODO: Implement this method
+		String[] splitWords = sourceText.split("\\s+");
+		starter = splitWords[0];
+		String prevWord = starter;
+		for (int i = 0; i < splitWords.length; i++) {
+			System.out.println(splitWords[i] + " " + splitWords[i].length());
+		}
+		
 	}
 	
 	/** 
@@ -78,6 +85,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		MarkovTextGeneratorLoL gen = new MarkovTextGeneratorLoL(new Random(42));
 		String textString = "Hello.  Hello there.  This is a test.  Hello there.  Hello Bob.  Test again.";
 		System.out.println(textString);
+
 		gen.train(textString);
 		System.out.println(gen);
 		System.out.println(gen.generateText(20));
