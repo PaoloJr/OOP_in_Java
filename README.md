@@ -1,4 +1,4 @@
-# OOP-in-Java
+# OOP_in_Java
 Object Oriented Programming in Java Specialization
 
 ---
